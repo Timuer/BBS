@@ -41,6 +41,8 @@ def login_post():
 def register():
 	if request.method == "GET":
 		return register_get()
+	else:
+		return register_post()
 
 
 def register_get():
