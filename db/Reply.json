@@ -1,62 +1,24 @@
 [
   {
-    "floor": 1,
-    "id": "8945f9ad-e031-466a-b15a-6d5a60a1f057",
     "username": "田牧",
-    "user_id": "54f13f22-6b89-44e7-93cf-c56edbad6e16",
-    "likes": 4,
-    "topic_id": "e6bb9d01-1b61-40af-b391-a0723de7e07f",
     "like_users": [
       "54f13f22-6b89-44e7-93cf-c56edbad6e16"
     ],
-    "content": "sdfasdfasd"
-  },
-  {
-    "floor": 2,
-    "id": "d55ad18f-21bd-4207-8bb2-47ad704e99d7",
-    "username": "田牧",
-    "user_id": "54f13f22-6b89-44e7-93cf-c56edbad6e16",
-    "likes": 2,
-    "topic_id": "e6bb9d01-1b61-40af-b391-a0723de7e07f",
-    "like_users": [
-      "54f13f22-6b89-44e7-93cf-c56edbad6e16"
-    ],
-    "content": "ggggggggggggggg"
-  },
-  {
-    "floor": 3,
-    "id": "8dcf93a5-70cb-4b6e-8931-0966a68e597f",
-    "username": "田牧",
-    "user_id": "54f13f22-6b89-44e7-93cf-c56edbad6e16",
-    "likes": 3,
-    "topic_id": "e6bb9d01-1b61-40af-b391-a0723de7e07f",
-    "like_users": [
-      "54f13f22-6b89-44e7-93cf-c56edbad6e16"
-    ],
-    "content": "heheehehehhehe"
-  },
-  {
-    "floor": 4,
-    "id": "5e9b3eee-0d05-4dc6-812b-9784b21f7ac9",
-    "username": "田牧",
+    "content": "sdfsdfs",
+    "id": "3550c3b9-23c3-47b5-91c0-eb46a841d31f",
     "user_id": "54f13f22-6b89-44e7-93cf-c56edbad6e16",
     "likes": 1,
     "topic_id": "e6bb9d01-1b61-40af-b391-a0723de7e07f",
-    "like_users": [
-      "54f13f22-6b89-44e7-93cf-c56edbad6e16"
-    ],
-    "content": "sdg"
+    "floor": 1
   },
   {
-    "floor": 5,
-    "id": "b17942f5-127e-4c55-aafa-0fc3c99475b7",
     "username": "田牧",
+    "like_users": [],
+    "content": "sdfasdggdfhfhgfjfmj",
+    "id": "be289f5a-d3a0-40f3-bc2c-67d3d8d81015",
     "user_id": "54f13f22-6b89-44e7-93cf-c56edbad6e16",
-    "likes": 1,
+    "likes": 0,
     "topic_id": "e6bb9d01-1b61-40af-b391-a0723de7e07f",
-    "like_users": [
-      "54f13f22-6b89-44e7-93cf-c56edbad6e16"
-    ],
-    "content": "sdfsd"
+    "floor": 2
   }
 ]

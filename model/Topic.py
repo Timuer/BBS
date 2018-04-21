@@ -13,7 +13,6 @@ class Topic(Model):
 		self.user_id = form.get("user_id", "")
 		self.content = form.get("content", "")
 
-
 	@classmethod
 	def new(cls, form):
 		m = cls(form)

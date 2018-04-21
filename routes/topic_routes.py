@@ -2,12 +2,11 @@ from flask import (
 	Blueprint,
 	render_template,
 	request,
-	session,
 	redirect,
 	url_for,
 )
 from model.Topic import Topic
-from model.User import User
+from model.User import current_user
 from model.Reply import Reply
 
 topic_routes = Blueprint("topic", __name__)
@@ -16,19 +15,17 @@ topic_routes = Blueprint("topic", __name__)
 @topic_routes.route("/")
 def index():
 	topics = Topic.all()
-	user_id = session.get("user_id", "")
-	user = User.find_by_id(user_id)
+	user = current_user()
 	return render_template("topic/index.html", user=user, topics=topics)
 
 
 @topic_routes.route("/add", methods=["GET", "POST"])
 def add():
-	user_id = session.get("user_id", "")
-	u = User.find_by_id(user_id)
+	u = current_user()
 	if not u:
 		return redirect(url_for("auth.login"))
 	if request.method == "GET":
-		return render_template("topic/add.html", user_id=user_id)
+		return render_template("topic/add.html", user_id=u.id)
 	Topic.new(request.form)
 	return redirect(url_for(".index"))
 
@@ -36,11 +33,9 @@ def add():
 @topic_routes.route("/t/<topic_id>")
 def detail(topic_id):
 	t = Topic.find_by_id(topic_id)
-	t.views += 1
-	t.update()
-	user_id = session.get("user_id", "")
-	u = User.find_by_id(user_id)
+	u = current_user()
 	rs = Reply.find_by(topic_id=topic_id)
+	update_views(t)
 	rs.sort(key=lambda x: x.floor)
 	floor_count = len(rs) + 1
 	return render_template("topic/detail.html",
@@ -48,3 +43,8 @@ def detail(topic_id):
 						   user=u,
 						   replies=rs,
 						   floor_count=floor_count)
+
+
+def update_views(topic):
+	topic.views += 1
+	topic.update()

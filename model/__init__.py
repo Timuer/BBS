@@ -2,6 +2,7 @@ import json
 import uuid
 import os
 
+
 def load(path):
 	with open(path, "r", encoding="utf-8") as f:
 		s = f.read()
@@ -94,10 +95,8 @@ class Model(object):
 		self.delete(id)
 		self.save()
 
-
 	def json(self):
 		return json.dumps(self.__dict__, ensure_ascii=False, indent=2)
-
 
 	def __repr__(self):
 		classname = self.__class__.__name__

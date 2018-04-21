@@ -1,4 +1,7 @@
 from model import Model
+from flask import session
+from utils import tokens
+
 
 class User(Model):
 	def __init__(self, form):
@@ -18,6 +21,11 @@ class User(Model):
 
 	@classmethod
 	def register(cls, form):
+		token = form.get("_xsrf", "")
+		if token not in tokens:
+			return False, "请不要重复提交表单"
+		else:
+			tokens.pop(token)
 		username = form.get("username", "")
 		email = form.get("email", "")
 		users = cls.all()
@@ -29,6 +37,13 @@ class User(Model):
 		return True, ""
 
 
+def current_user():
+	user_id = session.get("user_id", None)
+	if user_id:
+		return User.find_by_id(user_id)
+	else:
+		return None
+
+
 def validate_email(email):
 	pass
-

@@ -22,6 +22,7 @@
 	<body>
 		<div class="container">
 			<form action="/auth/register" method="POST">
+			  <input type="hidden" name="_xsrf" value="{{ token }}">
 			  <div class="form-group">
 				<label for="username" class="control-label">用户名</label>
 				<input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名">

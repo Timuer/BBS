@@ -7,13 +7,25 @@ from flask import (
 	render_template,
 	session,
 )
+from utils import generate_token
+
 auth_routes = Blueprint("auth", __name__)
 
 
 @auth_routes.route("/login", methods=["GET", "POST"])
 def login():
 	if request.method == "GET":
-		return render_template("login.html", messages="")
+		return login_get()
+	else:
+		return login_post()
+
+
+def login_get():
+	token = generate_token()
+	return render_template("login.html", token=token, messages="")
+
+
+def login_post():
 	form = request.form
 	u = User.validate_login(form)
 	if u:
@@ -21,16 +33,26 @@ def login():
 		session.permanent = True
 		return redirect(url_for("topic.index"))
 	else:
-		return render_template("login.html", messages="用户名或密码错误")
+		token = generate_token()
+		return render_template("login.html", token=token, messages="用户名或密码错误")
 
 
 @auth_routes.route("/register", methods=["GET", "POST"])
 def register():
 	if request.method == "GET":
-		return render_template("register.html", messages="")
+		return register_get()
+
+
+def register_get():
+	token = generate_token()
+	return render_template("register.html", token=token, messages="")
+
+
+def register_post():
 	form = request.form
 	is_success, messages = User.register(form)
 	if is_success:
 		return redirect(url_for(".login"))
 	else:
-		return render_template("register.html", messages=messages)
+		token = generate_token()
+		return render_template("register.html", token=token, messages=messages)

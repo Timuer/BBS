@@ -1,34 +1,42 @@
 from flask import (
 	Blueprint,
 	request,
-	session,
 	redirect,
 	url_for,
 )
 from model.Reply import Reply
 from model.Topic import Topic
-
+from model.User import current_user
 
 reply_routes = Blueprint("reply", __name__)
 
 
 @reply_routes.route("/add/<topic_id>", methods=["POST"])
 def add(topic_id):
-	user_id = session.get("user_id", None)
-	if not user_id:
+	u = current_user()
+	if not u:
 		return redirect(url_for("auth.login"))
 	Reply.new(request.form)
 	t = Topic.find_by_id(topic_id)
-	t.comments += 1
-	t.update()
+	update_comments(t)
 	return redirect(url_for("topic.detail", topic_id=topic_id))
+
 
 @reply_routes.route("/votes/<reply_id>")
 def votes(reply_id):
-	user_id = session.get("user_id", None)
+	u = current_user()
 	r = Reply.find_by_id(reply_id)
-	if user_id not in r.like_users:
-		r.like_users.append(user_id)
-		r.likes += 1
-		r.update()
+	if u.id not in r.like_users:
+		update_likes(r)
 	return redirect(url_for("topic.detail", topic_id=r.topic_id))
+
+
+def update_comments(topic):
+	topic.comments += 1
+	topic.update()
+
+
+def update_likes(reply):
+	reply.like_users.append(reply.user_id)
+	reply.likes += 1
+	reply.update()
