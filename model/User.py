@@ -25,7 +25,7 @@ class User(Model):
 		if token not in tokens:
 			return False, "请不要重复提交表单"
 		else:
-			tokens.pop(token)
+			tokens.remove(token)
 		username = form.get("username", "")
 		users = cls.all()
 		if username in (u.username for u in users):
