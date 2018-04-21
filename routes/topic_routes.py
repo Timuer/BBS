@@ -16,7 +16,7 @@ topic_routes = Blueprint("topic", __name__)
 @topic_routes.route("/")
 def index():
 	topics = Topic.all()
-	user_id = session.get("user_id")
+	user_id = session.get("user_id", "")
 	user = User.find_by_id(user_id)
 	return render_template("topic/index.html", user=user, topics=topics)
 

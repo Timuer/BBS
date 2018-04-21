@@ -5,6 +5,7 @@ class User(Model):
 		self.id = form.get("id", "")
 		self.username = form.get("username", "")
 		self.password = form.get("password", "")
+		self.email = form.get("email", "")
 		self.description = form.get("description", "")
 
 	@classmethod
@@ -17,10 +18,17 @@ class User(Model):
 
 	@classmethod
 	def register(cls, form):
-		username = form.get("username")
+		username = form.get("username", "")
+		email = form.get("email", "")
 		users = cls.all()
 		if username in (u.username for u in users):
 			return False, "用户已存在"
+		if not validate_email(email):
+			return False, "邮箱格式错误"
 		User.new(form)
 		return True, ""
+
+
+def validate_email(email):
+	pass
 

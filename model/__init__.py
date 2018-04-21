@@ -13,6 +13,7 @@ def save(path, data):
 	with open(path, "w", encoding="utf-8") as f:
 		f.write(s)
 
+
 class Model(object):
 	@classmethod
 	def getid(cls):

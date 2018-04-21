@@ -23,4 +23,3 @@ class Topic(Model):
 		m.user_id = user_id
 		m.username = user.username
 		m.save()
-
