@@ -1,0 +1,101 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="/static/css/basic.css">
+	<link rel="stylesheet" href="/static/css/style.css">
+	<style>
+		.box {
+			width: 70%;
+			margin: 50px 50px;
+		}
+		.rpane {
+			float: right;
+		}
+		#publish-btn {
+			text-decoration: None;
+			display: block;
+			padding: 10px 20px;
+			margin: 50px 120px;
+			border-radius: 10px;
+			color: #fff;
+			background-color: RGB(234, 111, 90);
+		}
+		#publish-btn:hover {
+			background-color: RGB(236, 97, 73);
+		}
+	</style>
+</head>
+<body>
+    <div id="Top">
+        <div class="content">
+            <div style="padding-top: 6px;">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                    <td width="110" align="left"><a href="/" name="top" title="way to explore"><div id="Logo"></div></a></td>
+                    <td width="570" align="right" style="padding-top: 2px;">
+						<a href="/topic/" class="top">首页</a>&nbsp;&nbsp;&nbsp;
+						{% if not user %}
+							<a href="{{ url_for('auth.register') }}" class="top">注册</a>&nbsp;&nbsp;&nbsp;
+							<a href="{{ url_for('auth.login') }}" class="top">登录</a>
+						{% else %}
+							<a href="#" class="top">你好，{{user.username}}</a>
+						{% endif %}
+					</td>
+                </tr>
+            </table>
+            </div>
+        </div>
+    </div>
+	<div class="box" style="border-bottom: 0px;">
+		<div class="header">
+			<div class="sep10"></div>
+			<h1>{{ topic.title }}</h1>
+			<div class="votes">
+				<a href="#">作者：{{ topic.username }} ~ {{ topic.views }} 次浏览</a>
+			</div>
+			<div class="cell">
+				<div class="topic_content">
+					{{ topic.content }}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="box">
+		<div class="cell">
+			添加一条新回复
+		</div>
+		<div class="cell">
+			<form method="POST" action="/reply/add/{{topic.id}}">
+				<textarea name="content" maxlength="10000" class="mll" id="reply_content"></textarea>
+				<div class="sep10"></div>
+				<div class="fr"><div class="sep5"></div><span class="gray">请尽量让自己的回复能够对别人有帮助</span></div>
+				<input type="hidden" value="{{topic.id}}" name="topic_id" />
+				<input type="hidden" value="{{user.id}}" name="user_id" />
+				<input type="hidden" value="{{floor_count}}" name="floor" />
+				<input id="add-reply-btn" type="submit" value="回复" class="super normal button" />
+			</form>
+		</div>
+	</div>
+		<div class="box" id="comments">
+		{% for r in replies %}
+				<div id="r_5579111" class="cell floor">
+				<table cellpadding="0" cellspacing="0" border="0" width="100%">
+					<tr>
+						<td width="48" valign="top" align="center">
+						<img src="//cdn.v2ex.com/gravatar/9d397655cdcbff758f8abd9b75b5f5f7?s=48&d=retro" class="avatar" border="0" align="default" /></td>
+						<td width="10" valign="top"></td>
+						<td width="auto" valign="top" align="left">
+							<div class="sep3"></div>
+							<strong><a href="#" class="dark">{{r.username}}</a></strong>&nbsp; &nbsp;
+							<span class="floor">第{{r.floor}}楼</span>  &nbsp;
+							<span class="small fade"><a href="/reply/votes/{{r.id}}">♥ {{r.likes}}</a></span>
+							<div class="sep5"></div>
+							<div class="reply_content">{{r.content}}</div>
+						</td>
+					</tr>
+				</table>
+				</div>
+		{% endfor %}
+		</div>
+</body>
+</html>
