@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加板块</title>
+    <link href="https://cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: RGB(241, 241, 241);
+        }
+        .container {
+            width: 30%;
+            margin: 100px auto;
+            padding: 100px 100px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 8px 8px 4px RGB(221, 221, 221);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form action="{{ url_for("board.add") }}" method="POST">
+            <div class="form-group">
+                <label for="board" class="control-label">板块标题</label>
+                <input type="text" id="board" name="title" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="description" class="control-label">板块描述</label>
+                <textarea id="description" rows="30" cols="100" name="description" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">提交</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

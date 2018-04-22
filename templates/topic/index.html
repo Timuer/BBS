@@ -1,85 +1,114 @@
 <html>
 <head>
-	<meta charset="utf-8">
-	<link rel="stylesheet" href="../static/css/basic.css">
-	<link rel="stylesheet" href="../static/css/style.css">
-	<style>
-		.box {
-			width: 70%;
-			margin: 50px 50px;
-		}
-		.rpane {
-			float: right;
-		}
-		#publish-btn {
-			text-decoration: None;
-			display: block;
-			padding: 10px 20px;
-			margin: 50px 120px;
-			border-radius: 10px;
-			color: #fff;
-			background-color: RGB(234, 111, 90);
-		}
-		#publish-btn:hover {
-			background-color: RGB(236, 97, 73);
-		}
-	</style>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../static/css/basic.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <style>
+        .box {
+            width: 70%;
+            margin: 50px 50px;
+        }
+
+        .rpane {
+            float: right;
+        }
+
+        .publish-btn {
+            text-decoration: None;
+            display: block;
+            padding: 10px 20px;
+            margin: 50px 120px;
+            border-radius: 10px;
+            color: #fff !important;
+            background-color: RGB(234, 111, 90);
+        }
+
+        .publish-btn:hover {
+            background-color: RGB(236, 97, 73);
+        }
+    </style>
 </head>
 <body>
     <div id="Top">
         <div class="content">
             <div style="padding-top: 6px;">
-            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                <tr>
-                    <td width="110" align="left"><a href="/" name="top" title="way to explore"><div id="Logo"></div></a></td>
-					<td width="570" align="right" style="padding-top: 2px;">
-						<a href="/topic/" class="top">首页</a>&nbsp;&nbsp;&nbsp;
-						{% if not user %}
-							<a href="{{ url_for('auth.register') }}" class="top">注册</a>&nbsp;&nbsp;&nbsp;
-							<a href="{{ url_for('auth.login') }}" class="top">登录</a>
-						{% else %}
-							<a href="#" class="top">你好，{{user.username}}</a>
-						{% endif %}
-					</td>
-                </tr>
-            </table>
+                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tr>
+                        <td width="110" align="left"><a href="/" name="top" title="way to explore">
+                            <div id="Logo"></div>
+                        </a></td>
+                        <td width="570" align="right" style="padding-top: 2px;">
+                            <a href="/topic/" class="top">首页</a>&nbsp;&nbsp;&nbsp;
+                            {% if not user %}
+                                <a href="{{ url_for('auth.register') }}" class="top">注册</a>&nbsp;&nbsp;&nbsp;
+                                <a href="{{ url_for('auth.login') }}" class="top">登录</a>
+                            {% else %}
+                                <a href="#" class="top">你好，{{ user.username }}</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
-	<div class="rpane">
-		<a id="publish-btn" href="{{url_for('topic.add')}}">发布话题</a>
-	</div>
-	<div class="box">
-		{% for t in topics %}
-			<div class="cell item" style="">
-				<table cellpadding="0" cellspacing="0" border="0" width="100%">
-					<tr>
-						<td width="48" valign="top" align="center">
-							<a href="#">
-								<img src="//cdn.v2ex.com/gravatar/9a0f3787f59a94d95163659d7554dd80?s=48&d=retro" class="avatar" border="0" align="default" />
-							</a>
-						</td>
-						<td width="10"></td>
-						
-						<td width="auto" valign="middle">
+    <div class="rpane">
+        <a class="publish-btn" href="{{ url_for('topic.add') }}">发布话题</a>
+        <a class="publish-btn" href="{{ url_for('board.add') }}">发布板块</a>
+    </div>
+    <div class="box">
+        <div class="inner" id="Tabs">
+            {% if board_id %}
+                <a href="{{ url_for("topic.index") }}" class="tab">全部</a>
+                {% for b in boards %}
+                    {% if b.id == board_id %}
+                        <a href="{{ url_for("topic.index") }}?board={{ b.id }}" class="tab_current">{{ b.title }}</a>
+                    {% else %}
+                        <a href="{{ url_for("topic.index") }}?board={{ b.id }}" class="tab">{{ b.title }}</a>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <a href="/" class="tab_current">全部</a>
+                {% for b in boards %}
+                    <a href="{{ url_for("topic.index") }}?board={{ b.id }}" class="tab">{{ b.title }}</a>
+                {% endfor %}
+            {% endif %}
+        </div>
+{#        <div class="cell" id="SecondaryTabs">#}
+{#            <a href="/go/programmer">程序员</a> &nbsp; &nbsp;#}
+{#        </div>#}
+    </div>
+    <div class="box">
+        {% for t in topics %}
+            <div class="cell item" style="">
+                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tr>
+                        <td width="48" valign="top" align="center">
+                            <a href="#">
+                                <img src="//cdn.v2ex.com/gravatar/9a0f3787f59a94d95163659d7554dd80?s=48&d=retro"
+                                     class="avatar" border="0" align="default"/>
+                            </a>
+                        </td>
+                        <td width="10"></td>
+
+                        <td width="auto" valign="middle">
 							<span class="item_title">
-							<a href="/topic/t/{{ t.id }}">{{t.title}}</a>
+							<a href="/topic/t/{{ t.id }}">{{ t.title }}</a>
 						</span>
-						<div class="sep5"></div>
-						<span class="topic_info">
-							<a class="node" href="#">{{t.theme}}</a> &nbsp;•&nbsp; 
-							<strong><a href="#">{{t.username}}</a></strong> &nbsp;•&nbsp;
+                            <div class="sep5"></div>
+                            <span class="topic_info">
+							<a class="node" href="#">{{ t.theme }}</a> &nbsp;•&nbsp;
+							<strong><a href="#">{{ t.username }}</a></strong> &nbsp;•&nbsp;
 							1 分钟前 &nbsp;•&nbsp;
-							{{t.views}}次浏览
+							{{ t.views }}次浏览
 						</span>
-						</td>
-						<td width="70" align="right" valign="middle">
-							<a href="/topic/t/{{t.id}}#comments" class="count_livid">{{t.comments}}</a>
-						</td>
-					</tr>
-				</table>
-			</div>
-		{% endfor %}
-	</div>
+                        </td>
+                        <td width="70" align="right" valign="middle">
+                            <a href="/topic/t/{{ t.id }}#comments" class="count_livid">{{ t.comments }}</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        {% endfor %}
+    </div>
 </body>
 </html>

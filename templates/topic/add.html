@@ -18,18 +18,18 @@
 	</head>
 	<body>
 		<div class="container">
-			<form action="/topic/add" method="POST">
+			<form action="{{ url_for("topic.add") }}" method="POST">
 			  <input type="hidden" name="user_id" value={{user_id}}>
 			  <div class="form-group">
 				<label for="title" class="control-label">标题</label>
 				<input type="text" class="form-control" id="title" name="title" placeholder="请输入标题">
 			  </div>
 			  <div class="form-group">
-				<label for="theme" class="control-label">主题</label>
-				<select id="theme" name="theme" class="form-control">
-					<option value="程序员">程序员</option>
-					<option value="运动">运动</option>
-					<option value="脊椎病">脊椎病</option>
+				<label for="board" class="control-label">主题</label>
+				<select id="board" name="board_id" class="form-control">
+                    {% for b in boards %}
+                        <option value="{{ b.id }}">{{ b.title }}</option>
+                    {% endfor %}
 				</select>
 			  </div>
 			  <div class="form-group">

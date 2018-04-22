@@ -1,5 +1,6 @@
 import time
 import uuid
+import os.path
 
 tokens = set()
 
@@ -17,3 +18,15 @@ def generate_token():
 	token = str(uuid.uuid4())
 	tokens.add(token)
 	return token
+
+
+def init_db():
+	if not os.path.exists("db"):
+		os.mkdir("db")
+	classes = ["User", "Topic", "Reply", "Board"]
+	for c in classes:
+		db_path = "db{}{}.json".format(os.sep, c)
+		if not os.path.exists(db_path):
+			with open(db_path, "w", encoding="utf-8") as f:
+				f.write("[]")
+
