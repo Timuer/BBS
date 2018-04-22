@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name www.timuer.top
+    server_name www.timuer.top;
     location / {
         proxy_pass http://127.0.0.1:2000;
     }
