@@ -1,8 +1,116 @@
-import json
-import uuid
-import os
+from pymongo import MongoClient
+import time
+
+db = MongoClient("localhost", 27017).bbs
 
 
+class MongoModel(object):
+	__fields__ = [
+		("id", int, 0),
+		("created_time", int, -1),
+		("updated_time", int, -1),
+		("deleted", bool, False),
+	]
+
+	@classmethod
+	def doc(cls):
+		return db[cls.__name__]
+
+	@classmethod
+	def next_id(cls):
+		data_id = db["data_id"]
+		# 第三个参数表示不存在则创建（upsert）
+		data_id.update({"model":cls.__name__}, {"$inc": {"count": 1}}, True)
+		return data_id.find_one({"model":cls.__name__})["count"]
+
+	"""
+		用于外部调用，从表单生成一个映射的模型对象
+	"""
+
+	@classmethod
+	def new(cls, form=None, **kwargs):
+		model = cls()
+		fields = cls.__fields__.copy()
+		if form is None:
+			form = {}
+		for key, tp, value in fields:
+			if key in form:
+				setattr(model, key, tp(form[key]))
+			else:
+				setattr(model, key, value)
+		for k, v in kwargs:
+			if hasattr(model, k):
+				setattr(model, k, v)
+			else:
+				raise KeyError
+		setattr(model, "created_time", int(time.time()))
+		setattr(model, "updated_time", int(time.time()))
+		setattr(model, "id", cls.next_id())
+		return model
+
+	@classmethod
+	def new_and_save(cls, form=None, **kwargs):
+		m = cls.new(form, **kwargs)
+		m.save()
+		return m
+
+	"""
+		用于模型内部调用，从Mongo数据库中查询到的bson格式
+		数据恢复成模型对象
+	"""
+
+	@classmethod
+	def _new_from_mongo(cls, bson):
+		model = cls()
+		fields = cls.__fields__.copy()
+		for key, tp, value in fields:
+			if key in bson:
+				setattr(model, key, bson[key])
+			else:
+				setattr(model, key, value)
+		setattr(model, "_id", bson["_id"])
+		return model
+
+	@classmethod
+	def _find(self, sort_key=None, **kwargs):
+		kwargs["deleted"] = False
+		if sort_key:
+			lst = list(self.doc().find(kwargs).sort(sort_key))
+		else:
+			lst = list(self.doc().find(kwargs))
+		return lst
+
+	@classmethod
+	def all(cls):
+		ms = cls._find()
+		return [cls._new_from_mongo(m) for m in ms]
+
+	@classmethod
+	def find_by(cls, **kwargs):
+		ms = cls._find(sort_key=None, **kwargs)
+		return [cls._new_from_mongo(m) for m in ms]
+
+	@classmethod
+	def find_by_id(cls, id):
+		id = int(id)
+		m = cls.doc().find_one({"id": id})
+		return cls._new_from_mongo(m)
+
+	@classmethod
+	def delete(cls, id):
+		cls.doc().update({"id":id}, {"$set":{"deleted":True}})
+
+	def save(self):
+		self.doc().save(self.__dict__)
+
+	def update(self):
+		d = self.__dict__
+		_id = d.pop("_id")
+		self.doc().update({"_id": _id}, {"$set": d})
+
+
+
+"""
 def load(path):
 	with open(path, "r", encoding="utf-8") as f:
 		s = f.read()
@@ -103,3 +211,6 @@ class Model(object):
 		properties = ["{}: ({})".format(k, v) for k, v in self.__dict__.items()]
 		s = "\n".join(properties)
 		return "< {}\n{} >\n".format(classname, s)
+"""
+
+

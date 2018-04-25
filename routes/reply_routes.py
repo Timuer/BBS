@@ -11,18 +11,18 @@ from model.User import current_user
 reply_routes = Blueprint("reply", __name__)
 
 
-@reply_routes.route("/add/<topic_id>", methods=["POST"])
+@reply_routes.route("/add/<int:topic_id>", methods=["POST"])
 def add(topic_id):
 	u = current_user()
 	if not u:
 		return redirect(url_for("auth.login"))
-	Reply.new(request.form)
+	Reply.new_and_save(request.form)
 	t = Topic.find_by_id(topic_id)
 	update_comments(t)
 	return redirect(url_for("topic.detail", topic_id=topic_id))
 
 
-@reply_routes.route("/votes/<reply_id>")
+@reply_routes.route("/votes/<int:reply_id>")
 def votes(reply_id):
 	u = current_user()
 	r = Reply.find_by_id(reply_id)

@@ -1,0 +1,78 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="/static/css/basic.css">
+	<link rel="stylesheet" href="/static/css/style.css">
+	<link href="https://cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap.css" rel="stylesheet">
+	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+		body {
+			background-color: RGB(241, 241, 241);
+		}
+		.container {
+			width: 50%;
+			margin: 100px auto;
+			padding: 100px 100px;
+			background-color: white;
+			border-radius: 5px;
+			box-shadow: 8px 8px 4px RGB(221, 221, 221);
+		}
+		.btn-success {
+			margin-right: 70px;
+		}
+	</style>
+</head>
+<body>
+    <div id="Top">
+        <div class="content">
+            <div style="padding-top: 6px;">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                    <td width="110" align="left"><a href="/" name="top" title="way to explore"><div id="Logo"></div></a></td>
+                    <td width="570" align="right" style="padding-top: 2px;">
+						<a href="/topic/" class="top">首页</a>&nbsp;&nbsp;&nbsp;
+						{% if not user %}
+							<a href="{{ url_for('auth.register') }}" class="top">注册</a>&nbsp;&nbsp;&nbsp;
+							<a href="{{ url_for('auth.login') }}" class="top">登录</a>
+						{% else %}
+							<a href="{{ url_for('profile.edit') }}" class="top">你好，{{user.username}}</a>
+						{% endif %}
+					</td>
+                </tr>
+            </table>
+            </div>
+        </div>
+    </div>
+	<div class="container">
+		<form action="{{ url_for('profile.edit') }}" method="POST" enctype="multipart/form-data">
+		  <div class="form-group">
+			<label for="username" class="control-label">用户名</label>
+			<input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名">
+		  </div>
+		  <div class="form-group">
+			<label for="sex" class="control-label">性别</label>
+			<select id="sex" name="sex" class="form-control">
+				<option value="男">男</option>
+				<option value="女">女</option>
+			</select>
+		  </div>
+		  <div class="form-group">
+			<label for="image" class="control-label">头像</label>
+			<input type="file" class="form-control" id="image" name="image">
+		  </div>
+		  <div class="form-group">
+			<label for="email" class="control-label">邮箱</label>
+			<input type="email" class="form-control" id="email" name="email" placeholder="请输入邮箱">
+		  </div>
+		  <div class="form-group">
+			<label for="description" class="control-label">用户简介</label>
+			<textarea id="description" name="description" class="form-control"></textarea>
+		  </div>
+		  <div class="form-group">
+			  <button type="submit" class="btn btn-success">提交</button>
+		  </div>
+		</form>
+	</div>
+</body>
+</html>

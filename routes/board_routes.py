@@ -18,5 +18,5 @@ def add():
 	if request.method == "GET":
 		return render_template("board/add_board.html")
 	else:
-		Board.new(request.form)
+		Board.new_and_save(request.form)
 	return redirect(url_for("topic.index"))

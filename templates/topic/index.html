@@ -43,7 +43,7 @@
                                 <a href="{{ url_for('auth.register') }}" class="top">注册</a>&nbsp;&nbsp;&nbsp;
                                 <a href="{{ url_for('auth.login') }}" class="top">登录</a>
                             {% else %}
-                                <a href="#" class="top">你好，{{ user.username }}</a>
+                                <a href="{{ url_for('profile.edit') }}" class="top">你好，{{ user.username }}</a>
                             {% endif %}
                         </td>
                     </tr>
@@ -58,18 +58,18 @@
     <div class="box">
         <div class="inner" id="Tabs">
             {% if board_id %}
-                <a href="{{ url_for("topic.index") }}" class="tab">全部</a>
+                <a href="{{ url_for('topic.index') }}" class="tab">全部</a>
                 {% for b in boards %}
                     {% if b.id == board_id %}
-                        <a href="{{ url_for("topic.index") }}?board={{ b.id }}" class="tab_current">{{ b.title }}</a>
+                        <a href="{{ url_for('topic.index') }}?board={{ b.id }}" class="tab_current">{{ b.title }}</a>
                     {% else %}
-                        <a href="{{ url_for("topic.index") }}?board={{ b.id }}" class="tab">{{ b.title }}</a>
+                        <a href="{{ url_for('topic.index') }}?board={{ b.id }}" class="tab">{{ b.title }}</a>
                     {% endif %}
                 {% endfor %}
             {% else %}
                 <a href="/" class="tab_current">全部</a>
                 {% for b in boards %}
-                    <a href="{{ url_for("topic.index") }}?board={{ b.id }}" class="tab">{{ b.title }}</a>
+                    <a href="{{ url_for('topic.index') }}?board={{ b.id }}" class="tab">{{ b.title }}</a>
                 {% endfor %}
             {% endif %}
         </div>
@@ -97,7 +97,7 @@
                             <div class="sep5"></div>
                             <span class="topic_info">
 							<a class="node" href="#">{{ t.theme }}</a> &nbsp;•&nbsp;
-							<strong><a href="#">{{ t.username }}</a></strong> &nbsp;•&nbsp;
+							<strong><a href="/profile/{{ t.user_id }}">{{ t.username }}</a></strong> &nbsp;•&nbsp;
 							1 分钟前 &nbsp;•&nbsp;
 							{{ t.views }}次浏览
 						</span>

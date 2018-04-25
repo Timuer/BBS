@@ -34,11 +34,11 @@ def add():
 	if request.method == "GET":
 		boards = Board.all()
 		return render_template("topic/add.html", user_id=u.id, boards=boards)
-	Topic.new(request.form)
+	Topic.new_and_save(request.form)
 	return redirect(url_for(".index"))
 
 
-@topic_routes.route("/t/<topic_id>")
+@topic_routes.route("/t/<int:topic_id>")
 def detail(topic_id):
 	t = Topic.find_by_id(topic_id)
 	u = current_user()

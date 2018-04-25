@@ -1,0 +1,76 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="/static/css/basic.css">
+	<link rel="stylesheet" href="/static/css/style.css">
+	<link href="https://cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+    <div id="Top">
+        <div class="content">
+            <div style="padding-top: 6px;">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                    <td width="110" align="left"><a href="/" name="top" title="way to explore"><div id="Logo"></div></a></td>
+                    <td width="570" align="right" style="padding-top: 2px;">
+						<a href="/topic/" class="top">首页</a>&nbsp;&nbsp;&nbsp;
+						{% if not current_user %}
+							<a href="{{ url_for('auth.register') }}" class="top">注册</a>&nbsp;&nbsp;&nbsp;
+							<a href="{{ url_for('auth.login') }}" class="top">登录</a>
+						{% else %}
+							<a href="{{ url_for('profile.edit') }}" class="top">你好，{{current_user.username}}</a>
+						{% endif %}
+					</td>
+                </tr>
+            </table>
+            </div>
+        </div>
+    </div>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-3">
+				<img src="{{ view_user.image }}">
+			</div>
+			<div class="col-sm-9">
+				<h1>{{ view_user.username }}</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3">
+				<h3>性别</h3>
+			</div>
+			<div class="col-sm-9">
+				{% if view_user.sex %}
+					<p>{{view_user.sex}}</p>
+				{% else %}
+					<p>未设置</p>
+				{% endif %}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3">
+				<h3>邮箱</h3>
+			</div>
+			<div class="col-sm-9">
+				{% if view_user.email %}
+					<p>{{view_user.email}}</p>
+				{% else %}
+					<p>未设置</p>
+				{% endif %}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3">
+				<h3>个人简介</h3>
+			</div>
+			<div class="col-sm-9">
+				{% if view_user.description %}
+					<p>{{view_user.description}}</p>
+				{% else %}
+					<p>未设置</p>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</body>
+</html>
