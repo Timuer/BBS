@@ -62,4 +62,4 @@ def get_topics(board_id):
 	if not board_id:
 		return Topic.all()
 	else:
-		return [t for t in Topic.all() if t.board_id == board_id]
+		return [t for t in Topic.all() if t.board_id == int(board_id)]
