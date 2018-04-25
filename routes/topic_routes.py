@@ -15,7 +15,9 @@ topic_routes = Blueprint("topic", __name__)
 
 @topic_routes.route("/")
 def index():
-	board_id = request.args.get("board", "")
+	board_id = request.args.get("board", None)
+	if board_id:
+		board_id = int(board_id)
 	topics = get_topics(board_id)
 	boards = Board.all()
 	user = current_user()
