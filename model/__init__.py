@@ -18,6 +18,7 @@ class MongoModel(object):
 
 	@classmethod
 	def next_id(cls):
+		# 创建 data_id 文档集合
 		data_id = db["data_id"]
 		# 第三个参数表示不存在则创建（upsert）
 		data_id.update({"model":cls.__name__}, {"$inc": {"count": 1}}, True)

@@ -6,43 +6,56 @@
 			body {
 				background-color: RGB(241, 241, 241);
 			}
-			.container {
-				width: 30%;
-				margin: 100px auto;
-				padding: 100px 100px;
+			.pane {
+                padding: 50px;
+                margin-top: 100px;
 				background-color: white;
 				border-radius: 5px;
 				box-shadow: 8px 8px 4px RGB(221, 221, 221);
 			}
+            .pane h1 {
+                font-size: 2em;
+                font-weight: bold;
+                color: RGB(236, 97, 73);
+                text-align: center;
+                margin-bottom: 20px;
+            }
 			.btn-success {
-				margin-right: 70px;
+                margin-top: 10px;
+				width: 100%;
+                border-radius: 20px;
 			}
 		</style>
 	</head>
 	<body>
-		<div class="container">
-			<form action="{{ url_for('auth.register') }}" method="POST">
-			  <input type="hidden" name="_xsrf" value="{{ token }}">
-			  <div class="form-group">
-				<label for="username" class="control-label">用户名</label>
-				<input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名">
-			  </div>
-			  <div class="form-group">
-				<label for="password" class="control-label">密码</label>
-				<input type="password" class="form-control" id="password" name="password" placeholder="请输入密码">
-			  </div>
-			  <div class="form-group">
-				<label for="email" class="control-label">邮箱</label>
-				<input type="email" class="form-control" id="email" name="email" placeholder="请输入邮箱">
-			  </div>
-			  <div class="form-group">
-				  <button type="submit" class="btn btn-success">注册</button>
-				  <span>已有账号？<a href="{{ url_for('auth.login') }}">登陆</a></span>
-			  </div>
-			</form>
-			<div>
-				<p>{{messages}}</p>
-			</div>
+		<div class="container-fluid">
+            <div class="row">
+                <div class="pane col-sm-4 offset-sm-4">
+                    <h1>Timuer</h1>
+                    <form action="{{ url_for('auth.register') }}" method="POST">
+                      <input type="hidden" name="_xsrf" value="{{ token }}">
+                      <div class="form-group">
+                        <label for="username" class="control-label">用户名</label>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名">
+                      </div>
+                      <div class="form-group">
+                        <label for="password" class="control-label">密码</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码">
+                      </div>
+                      <div class="form-group">
+                        <label for="email" class="control-label">邮箱</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="请输入邮箱">
+                      </div>
+                      <span>已有账号？<a href="{{ url_for('auth.login') }}">登陆</a></span>
+                      <div class="form-group">
+                          <button type="submit" class="btn btn-success btn-lg">注册</button>
+                      </div>
+                    </form>
+                    <div class="alert alert-danger" role="alert">
+                        {{messages}}
+                    </div>
+                </div>
+            </div>
 		</div>
 	</body>
 </html>
