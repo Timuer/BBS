@@ -24,7 +24,7 @@ class User(MongoModel):
 	def validate_login(cls, form):
 		users = cls.all()
 		for u in users:
-			if u.username == form.get("username") and encrypt(u.password) == form.get("password"):
+			if u.username == form.get("username") and u.password == encrypt(form.get("password")):
 				return u
 		return None
 
@@ -39,7 +39,7 @@ class User(MongoModel):
 		users = cls.all()
 		if username in (u.username for u in users):
 			return False, "用户已存在"
-		User.new_and_save(form)
+		cls.new_and_save(form)
 		return True, ""
 
 

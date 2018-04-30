@@ -7,6 +7,7 @@ class Board(MongoModel):
 	]
 
 
+
 """
 class Board(Model):
 	def __init__(self, form):

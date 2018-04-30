@@ -11,15 +11,18 @@
 
         .rpane {
             float: right;
+            width: 20%;
         }
 
         .publish-btn {
             text-decoration: None;
+            text-align: center;
             display: block;
             padding: 10px 20px;
-            margin: 50px 120px;
+            margin: 50px 10px;
             border-radius: 10px;
             color: #fff !important;
+
             background-color: RGB(234, 111, 90);
         }
 
@@ -92,15 +95,15 @@
 
                         <td width="auto" valign="middle">
 							<span class="item_title">
-							<a href="/topic/t/{{ t.id }}">{{ t.title }}</a>
-						</span>
+							    <a href="/topic/t/{{ t.id }}">{{ t.title }}</a>
+						    </span>
                             <div class="sep5"></div>
                             <span class="topic_info">
-							<a class="node" href="#">{{ t.theme }}</a> &nbsp;•&nbsp;
-							<strong><a href="/profile/{{ t.user_id }}">{{ t.username }}</a></strong> &nbsp;•&nbsp;
-							1 分钟前 &nbsp;•&nbsp;
-							{{ t.views }}次浏览
-						</span>
+                                <a class="node" href="{{ url_for('topic.index') }}?board={{ t.board_id }}">{{ t.board }}</a> &nbsp;•&nbsp;
+                                <strong><a href="/profile/{{ t.user_id }}">{{ t.username }}</a></strong> &nbsp;•&nbsp;
+                                {{ t.calc_time() }} &nbsp;•&nbsp;
+                                {{ t.views }}次浏览
+						    </span>
                         </td>
                         <td width="70" align="right" valign="middle">
                             <a href="/topic/t/{{ t.id }}#comments" class="count_livid">{{ t.comments }}</a>

@@ -51,9 +51,11 @@
                           <button type="submit" class="btn btn-success btn-lg">注册</button>
                       </div>
                     </form>
+                    {% if messages %}
                     <div class="alert alert-danger" role="alert">
                         {{messages}}
                     </div>
+                    {% endif %}
                 </div>
             </div>
 		</div>

@@ -62,15 +62,18 @@ class MongoModel(object):
 
 	@classmethod
 	def _new_from_mongo(cls, bson):
-		model = cls()
-		fields = cls.__fields__.copy()
-		for key, tp, value in fields:
-			if key in bson:
-				setattr(model, key, bson[key])
-			else:
-				setattr(model, key, value)
-		setattr(model, "_id", bson["_id"])
-		return model
+		if bson:
+			model = cls()
+			fields = cls.__fields__.copy()
+			for key, tp, value in fields:
+				if key in bson:
+					setattr(model, key, bson[key])
+				else:
+					setattr(model, key, value)
+			setattr(model, "_id", bson["_id"])
+			return model
+		else:
+			return None
 
 	@classmethod
 	def _find(self, sort_key=None, **kwargs):
