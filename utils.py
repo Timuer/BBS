@@ -20,6 +20,13 @@ def generate_token():
 	return token
 
 
+def encrypt(pwd):
+	from app import app
+	from hashlib import md5
+	key = app.secret_key + pwd
+	return md5(key.encode("ascii")).hexdigest()
+
+
 def init_db():
 	if not os.path.exists("db"):
 		os.mkdir("db")

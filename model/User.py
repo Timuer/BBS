@@ -1,6 +1,7 @@
 from model import MongoModel
 from flask import session
 from utils import tokens
+from utils import encrypt
 
 class User(MongoModel):
 	__fields__ = MongoModel.__fields__ + [
@@ -13,10 +14,17 @@ class User(MongoModel):
 	]
 
 	@classmethod
+	def new_and_save(cls, form=None, **kwargs):
+		m = cls.new(form, **kwargs)
+		pwd = m.password
+		m.password = encrypt(pwd)
+		m.save()
+
+	@classmethod
 	def validate_login(cls, form):
 		users = cls.all()
 		for u in users:
-			if u.username == form.get("username") and u.password == form.get("password"):
+			if u.username == form.get("username") and encrypt(u.password) == form.get("password"):
 				return u
 		return None
 
