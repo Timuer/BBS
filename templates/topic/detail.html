@@ -8,21 +8,6 @@
 			width: 70%;
 			margin: 50px 50px;
 		}
-		.rpane {
-			float: right;
-		}
-		#publish-btn {
-			text-decoration: None;
-			display: block;
-			padding: 10px 20px;
-			margin: 50px 120px;
-			border-radius: 10px;
-			color: #fff;
-			background-color: RGB(234, 111, 90);
-		}
-		#publish-btn:hover {
-			background-color: RGB(236, 97, 73);
-		}
         pre {
             padding: 10px;
             background-color: #F0F0F0;
@@ -30,26 +15,7 @@
 	</style>
 </head>
 <body>
-    <div id="Top">
-        <div class="content">
-            <div style="padding-top: 6px;">
-            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                <tr>
-                    <td width="110" align="left"><a href="/" name="top" title="way to explore"><div id="Logo"></div></a></td>
-                    <td width="570" align="right" style="padding-top: 2px;">
-						<a href="/topic/" class="top">首页</a>&nbsp;&nbsp;&nbsp;
-						{% if not user %}
-							<a href="{{ url_for('auth.register') }}" class="top">注册</a>&nbsp;&nbsp;&nbsp;
-							<a href="{{ url_for('auth.login') }}" class="top">登录</a>
-						{% else %}
-							<a href="{{ url_for('profile.edit') }}" class="top">你好，{{user.username}}</a>
-						{% endif %}
-					</td>
-                </tr>
-            </table>
-            </div>
-        </div>
-    </div>
+	{% include 'components/navbar.html' %}
 	<div class="box" style="border-bottom: 0px;">
 		<div class="header">
 			<div class="sep10"></div>
