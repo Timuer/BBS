@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <title>添加板块</title>
     <link href="https://cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/fonts.css">
     <style>
         body {
             background-color: RGB(241, 241, 241);
         }
         .container {
-            width: 80%;
-            margin: 100px auto;
-            padding: 100px 100px;
+            width: 70%;
+            margin: 50px auto;
+            padding: 50px 50px;
             background-color: white;
             border-radius: 5px;
             box-shadow: 8px 8px 4px RGB(221, 221, 221);
@@ -22,10 +23,12 @@
     <div class="container">
         <form action="{{ url_for("board.add") }}" method="POST">
             <div class="form-group">
+                <span class="icon-quill"></span>
                 <label for="board" class="control-label">板块标题</label>
                 <input type="text" id="board" name="title" class="form-control">
             </div>
             <div class="form-group">
+                <span class="icon-book"></span>
                 <label for="description" class="control-label">板块描述</label>
                 <textarea id="description" rows="15" cols="200" name="description" class="form-control"></textarea>
             </div>

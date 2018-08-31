@@ -1,93 +1,63 @@
 <html>
-<head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="../static/css/basic.css">
-    <link rel="stylesheet" href="../static/css/style.css">
-    <style>
-        .box {
-            width: 70%;
-            margin: 50px 50px;
-        }
-
-        .rpane {
-            float: right;
-            width: 20%;
-        }
-
-        .publish-btn {
-            text-decoration: None;
-            text-align: center;
-            display: block;
-            padding: 10px 20px;
-            margin: 50px 10px;
-            border-radius: 10px;
-            color: #fff !important;
-
-            background-color: RGB(234, 111, 90);
-        }
-
-        .publish-btn:hover {
-            background-color: RGB(236, 97, 73);
-        }
-    </style>
-</head>
-<body>
-	{% include 'components/navbar.html' %}
-    <div class="rpane">
-        <a class="publish-btn" href="{{ url_for('topic.add') }}">发布话题</a>
-        <a class="publish-btn" href="{{ url_for('board.add') }}">发布板块</a>
-    </div>
-    <div class="box">
-        <div class="inner" id="Tabs">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../static/css/style.css">
+    </head>
+    <body>
+    	{% include 'components/navbar.html' %}
+        <nav class="theme-nav">
             {% if board_id %}
                 <a href="{{ url_for('topic.index') }}" class="tab">全部</a>
                 {% for b in boards %}
                     {% if b.id == board_id %}
-                        <a href="{{ url_for('topic.index') }}?board={{ b.id }}" class="tab_current">{{ b.title }}</a>
+                        <a href="{{ url_for('topic.index') }}?board={{ b.id }}" class="tab active">{{ b.title }}</a>
                     {% else %}
                         <a href="{{ url_for('topic.index') }}?board={{ b.id }}" class="tab">{{ b.title }}</a>
                     {% endif %}
                 {% endfor %}
             {% else %}
-                <a href="/" class="tab_current">全部</a>
+                <a href="/" class="tab active">全部</a>
                 {% for b in boards %}
                     <a href="{{ url_for('topic.index') }}?board={{ b.id }}" class="tab">{{ b.title }}</a>
                 {% endfor %}
             {% endif %}
+        </nav>
+        <div class="content">
+			<nav class="user-action-nav">
+				<a class="publish-btn" href="{{ url_for('topic.add') }}">发布话题</a>
+				<a class="publish-btn" href="{{ url_for('board.add') }}">发布板块</a>
+			</nav>
+            <ul class="item-list">
+                {% for t in topics %}
+                <li class="item">
+                    <h1 class="title-info">
+                        <a href="/topic/t/{{ t.id }}">
+                            {{ t.title }}
+                        </a>
+                    </h1>
+                    <div class="topic-info">
+                        <a class="info" href="{{ url_for('topic.index') }}?board={{ t.board_id }}">
+                            {{ t.board }}
+                        </a>
+                        <a class="info" href="/profile/{{ t.user_id }}">
+                            {{ t.username }}
+                        </a>
+                        <span class="info">
+                            {{ t.calc_time() }}
+                        </span>
+                        <span class="info">
+                            {{ t.views }}次浏览
+                        </span>
+                    </div>
+                    <div class="comment-info">
+                        <a href="/topic/t/{{ t.id }}#comments">
+                            {{ t.comments }}
+                        </a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
         </div>
-    </div>
-    <div class="box">
-        {% for t in topics %}
-            <div class="cell item" style="">
-                <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                    <tr>
-                        <td width="48" valign="top" align="center">
-                            <a href="#">
-                                <img src="//cdn.v2ex.com/gravatar/9a0f3787f59a94d95163659d7554dd80?s=48&d=retro"
-                                     class="avatar" border="0" align="default"/>
-                            </a>
-                        </td>
-                        <td width="10"></td>
-
-                        <td width="auto" valign="middle">
-							<span class="item_title">
-							    <a href="/topic/t/{{ t.id }}">{{ t.title }}</a>
-						    </span>
-                            <div class="sep5"></div>
-                            <span class="topic_info">
-                                <a class="node" href="{{ url_for('topic.index') }}?board={{ t.board_id }}">{{ t.board }}</a> &nbsp;•&nbsp;
-                                <strong><a href="/profile/{{ t.user_id }}">{{ t.username }}</a></strong> &nbsp;•&nbsp;
-                                {{ t.calc_time() }} &nbsp;•&nbsp;
-                                {{ t.views }}次浏览
-						    </span>
-                        </td>
-                        <td width="70" align="right" valign="middle">
-                            <a href="/topic/t/{{ t.id }}#comments" class="count_livid">{{ t.comments }}</a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        {% endfor %}
-    </div>
-</body>
+        <script src="../../static/js/base.js"></script>
+    </body>
 </html>

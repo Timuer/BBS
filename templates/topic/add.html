@@ -4,27 +4,23 @@
 		<link href="https://cdn.bootcss.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet">
 		<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 		<script src="https://cdn.bootcss.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+        <link rel="stylesheet" href="/static/css/style.css">
+        <link rel="stylesheet" href="/static/css/fonts.css">
 		<style>
 			body {
 				background-color: RGB(241, 241, 241);
 			}
 			.container {
-				width: 80%;
-				margin: 100px auto;
-				padding: 100px 100px;
+				width: 70%;
+				margin: 50px auto;
+				padding: 50px 50px;
 				background-color: white;
 				border-radius: 5px;
 				box-shadow: 8px 8px 4px RGB(221, 221, 221);
 			}
 			.submit-pane {
 				margin-top: 10px;
-			}
-			#content {
-				height: 400px;
-			}
-			#preview {
-				height: 400px;
-				overflow-y: auto;
 			}
 			pre {
 				padding: 10px;
@@ -37,28 +33,23 @@
 			<form action="{{ url_for("topic.add") }}" method="POST">
 			  <input type="hidden" name="user_id" value={{user_id}}>
 			  <div class="form-group">
-				<label for="title" class="control-label">标题</label>
+				<span class="icon-quill"></span>
+				<label for="title" class="control-label">文章标题</label>
 				<input type="text" class="form-control" id="title" name="title" placeholder="请输入标题">
 			  </div>
 			  <div class="form-group">
-				<label for="board" class="control-label">主题</label>
+				<span class="icon-book"></span>
+				<label for="board" class="control-label">文章主题</label>
 				<select id="board" name="board_id" class="form-control">
                     {% for b in boards %}
                         <option value="{{ b.id }}">{{ b.title }}</option>
                     {% endfor %}
 				</select>
 			  </div>
-			  <div class="row">
-				  <div class="left-content col-sm-6">
-					<label for="content" class="control-label">内容</label>
-					<textarea class="form-control" id="content" name="content" placeholder="该编辑器支持Markdown语法"></textarea>
-				  </div>
-				  <div class="right-content col-sm-6">
-					<label for="preview" class="control-label">预览</label>
-					<div class="form-control" id="preview">
-					</div>
-				  </div>
+			  <div class="editor-container">
+				  <textarea class="form-control" id="editor" name="content" placeholder="该编辑器支持Markdown语法"></textarea>
 			  </div>
+
 			  <div class="form-group">
 				<div class="submit-pane">
 				  <button type="submit" class="btn btn-success">提交</button>
@@ -66,37 +57,18 @@
 			  </div>
 			</form>
 		</div>
-		<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>	
-		<script>hljs.initHighlightingOnLoad();</script>
-		<script>
-			var rendererMD = new marked.Renderer();
-			marked.setOptions({
-			  renderer: rendererMD,
-			  gfm: true,
-			  tables: true,
-			  breaks: false,
-			  pedantic: false,
-			  sanitize: false,
-			  smartLists: true,
-			  smartypants: false
-			});
-			marked.setOptions({
-				highlight: function (code) {
-				return hljs.highlightAuto(code).value;
-			  }
-			});
-			var renderMarkdown = function() {
-				var previewDiv = document.getElementById('preview');
-				var contentDiv = document.getElementById('content');
-				document.addEventListener("keyup", function() {
-					if (document.activeElement.id === "content") {
-						previewDiv.innerHTML = marked(contentDiv.innerHTML);
-					}
-				});
+		<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+		<script type="text/javascript">
+			var e = function(sel) {
+				return document.querySelector(sel)
 			};
-			renderMarkdown();
+			var simplemde = new SimpleMDE({
+				element: e("#editor")
+			});
+			window.addEventListener('keyup', function() {
+				var renderedContent = simplemde.value();
+				e('#preview').innerHTML = simplemde.markdown(renderedContent);
+			})
 		</script>
 
 	</body>

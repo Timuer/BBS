@@ -1,98 +1,66 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<link rel="stylesheet" href="/static/css/basic.css">
 	<link rel="stylesheet" href="/static/css/style.css">
-	<style>
-		.box {
-			width: 70%;
-			margin: 50px 50px;
-		}
-        pre {
-            padding: 10px;
-            background-color: #F0F0F0;
-        }
-	</style>
 </head>
 <body>
 	{% include 'components/navbar.html' %}
-	<div class="box" style="border-bottom: 0px;">
-		<div class="header">
-			<div class="sep10"></div>
-			<h1>{{ topic.title }}</h1>
-			<div class="votes">
-				<a href="/profile/{{ topic.user_id }}">作者：{{ topic.username }} ~ {{ topic.views }} 次浏览</a>
-			</div>
-			<div class="cell">
-				<div class="topic_content">{{ topic.content }}</div>
-			</div>
+    <div class="article-content">
+		<h1 class="title">{{ topic.title }}</h1>
+		<div class="info">
+			<span><a href="/profile/{{ topic.user_id }}">{{ topic.username }}</a></span>
+			<span>{{ topic.views }}次浏览</span>
+		</div>
+		<div class="article">
+			{{ topic.content }}
 		</div>
 	</div>
-	<div class="box">
-		<div class="cell">
+	<div class="comment">
+		<div class="hint">
 			添加一条新回复
 		</div>
-		<div class="cell">
+		<div class="reply-form">
 			<form method="POST" action="/reply/add/{{topic.id}}">
-				<textarea name="content" maxlength="10000" class="mll" id="reply_content"></textarea>
-				<div class="sep10"></div>
-				<div class="fr"><div class="sep5"></div><span class="gray">请尽量让自己的回复能够对别人有帮助</span></div>
+				<div class="text">
+					<textarea name="content" maxlength="10000" id="reply_content"></textarea>
+				</div>
+				<span class="gray">请尽量让自己的回复能够对别人有帮助</span>
 				<input type="hidden" value="{{topic.id}}" name="topic_id" />
 				<input type="hidden" value="{{user.id}}" name="user_id" />
 				<input type="hidden" value="{{floor_count}}" name="floor" />
-				<input id="add-reply-btn" type="submit" value="回复" class="super normal button" />
+				<button id="add-reply-btn" type="submit">回复</button>
 			</form>
 		</div>
-	</div>
-		<div class="box" id="comments">
-		{% for r in replies %}
-				<div id="r_5579111" class="cell floor">
-				<table cellpadding="0" cellspacing="0" border="0" width="100%">
-					<tr>
-						<td width="48" valign="top" align="center">
-						<img src="//cdn.v2ex.com/gravatar/9d397655cdcbff758f8abd9b75b5f5f7?s=48&d=retro" class="avatar" border="0" align="default" /></td>
-						<td width="10" valign="top"></td>
-						<td width="auto" valign="top" align="left">
-							<div class="sep3"></div>
-							<strong><a href="/profile/{{ r.user_id }}" class="dark">{{r.username}}</a></strong>&nbsp; &nbsp;
-							<span class="floor">第{{r.floor}}楼</span>  &nbsp;
-							<span class="small fade"><a href="/reply/votes/{{r.id}}">♥ {{r.likes}}</a></span>
-							<div class="sep5"></div>
-							<div class="reply_content">
-                                {{r.content}}
-                            </div>
-						</td>
-					</tr>
-				</table>
+		<div class="replies">
+            {% for r in replies %}
+			<div class="floor-wrapper">
+				<div class="avatar">
+					<img src="https://cdn.v2ex.com/gravatar/63f64b724a65d37e75b28934e249b45b?s=48&amp;d=retro">
 				</div>
-		{% endfor %}
+				<div class="comment-item">
+					<div class="comment-info">
+						<span>
+							<a href="/profile/{{ r.user_id }}">
+								{{r.username}}
+							</a>
+						</span>
+						<span>
+							第{{r.floor}}楼
+						</span>
+						<span>
+							<a href="/reply/votes/{{r.id}}">
+								♥ {{r.likes}}
+							</a>
+						</span>
+					</div>
+					<div class="comment-content">
+                        {{ r.content }}
+					</div>
+				</div>
+			</div>
+            {% endfor %}
 		</div>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script>
-        var rendererMD = new marked.Renderer();
-        marked.setOptions({
-          renderer: rendererMD,
-          gfm: true,
-          tables: true,
-          breaks: false,
-          pedantic: false,
-          sanitize: false,
-          smartLists: true,
-          smartypants: false
-        });
-        marked.setOptions({
-            highlight: function (code) {
-            return hljs.highlightAuto(code).value;
-          }
-        });
-        var renderMarkdown = function() {
-            content = document.querySelector(".topic_content");
-            content.innerHTML = marked(content.innerHTML)
-        };
-        renderMarkdown();
-    </script>
+    </div>
+    <script src="/static/js/base.js"></script>
 </body>
 </html>
