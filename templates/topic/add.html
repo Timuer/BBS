@@ -65,10 +65,6 @@
 			var simplemde = new SimpleMDE({
 				element: e("#editor")
 			});
-			window.addEventListener('keyup', function() {
-				var renderedContent = simplemde.value();
-				e('#preview').innerHTML = simplemde.markdown(renderedContent);
-			})
 		</script>
 
 	</body>

@@ -11,8 +11,8 @@
 			<span><a href="/profile/{{ topic.user_id }}">{{ topic.username }}</a></span>
 			<span>{{ topic.views }}次浏览</span>
 		</div>
-		<div class="article">
-			{{ topic.content }}
+		<div class="article" id="article">
+			{{ topic.content | trim}}
 		</div>
 	</div>
 	<div class="comment">
@@ -54,13 +54,19 @@
 						</span>
 					</div>
 					<div class="comment-content">
-                        {{ r.content }}
+                        {{ r.content}}
 					</div>
 				</div>
 			</div>
             {% endfor %}
 		</div>
     </div>
-    <script src="/static/js/base.js"></script>
+    <script src="/static/lib/markdown.min.js"></script>
+    <script>
+        var article = document.getElementById('article');
+        var markdownText = article.innerHTML.trim();
+        var html = markdown.toHTML(markdownText);
+        article.innerHTML = html
+    </script>
 </body>
 </html>
