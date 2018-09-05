@@ -195,6 +195,16 @@ nav {
     margin-top: 10px;
 }
 
+#article a {
+	color: blue;
+	display: block;
+}
+
+#article code {
+	background: RGBA(7, 17, 27, 0.3);
+	color: RGB(43, 43, 43);
+}
+
 .comment {
     width: 70%;
     height: 100%;
