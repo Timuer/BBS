@@ -84,21 +84,30 @@ nav {
     height: 48px;
     line-height: 48px;
     background: #fff;
+	padding-left: 15%;
 }
+
 
 .tab {
     display: inline-block;
-    height: 100%;
+    height: 30px;
+	line-height: 30px;
     width: 100px;
+	margin-top: 10px;
     font-size: 14px;
     color: RGB(121, 127, 132);
     text-align: center;
-    border-right: 1px solid RGBA(7, 17, 27, 0.1);
+    border-left: 1px solid RGBA(7, 17, 27, 0.1);
 }
 
 .tab.active {
     color: RGB(0, 127, 255)
 }
+
+.tab:last-child {
+	border-right: 1px solid RGBA(7, 17, 27, 0.1);
+}
+
 
 /* 文章列表 */
 .content {
